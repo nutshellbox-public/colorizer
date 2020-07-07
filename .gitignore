@@ -1,0 +1,15 @@
+target/
+engine/
+src/main/resources/base/model
+__pycache__
+.idea/
+.DS_Store
+__pycache__/
+nohup.out
+fatal.txt
+log/log.log
+HEAD
+description
+config
+hooks/
+info/
