@@ -1,5 +1,4 @@
 target/
-engine/
 src/main/resources/base/model
 __pycache__
 .idea/
