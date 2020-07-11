@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QFileDialog
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QCoreApplication
 from PyQt5 import QtGui
+from PySide2 import QtXml
 import glob
 import os
 from engine.initial_window import Ui_initilizer

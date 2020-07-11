@@ -56,11 +56,10 @@ class Colorizer:
         title = quantize(title)
         output, _ = self.generator([comic, title], training=False)
         output = tf.image.adjust_saturation(output, 1.4)
-        output = tf.image.adjust_contrast(output, 1.2)
-        output = self.upscale([original, output], training=False)
+        output = self.upscale([output, original], training=False)
+        output = tf.image.adjust_saturation(output, 1.4)
         output = np.asarray(output, dtype=np.float32)
-        output = np.where(output > 1, np.ones_like(output), output)
-        output = np.where(output < 0, np.zeros_like(output), output)
+        output = np.clip(output, -1, 1)
         output = (output * 0.5) + 0.5
         output *= 255
         output = np.asarray(output[0], dtype=np.uint8)

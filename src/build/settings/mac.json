@@ -1,3 +1,14 @@
 {
-    "mac_bundle_identifier": ""
+  "mac_bundle_identifier": "",
+  "pyinstaller_args": {
+    "--add-data": "/Users/nutshellbox/Library/Python/3.7/lib/python/site-packages/tensorflow/lite/experimental/microfrontend/python/ops/_audio_microfrontend_op.so;tensorflow/lite/experimental/microfrontend/python/ops/"
+  },
+  "hidden_imports": [
+    "pkg_resources.py2_warn",
+    "tensorflow.compiler.tf2tensorrt",
+    "tensorflow.compiler.tf2tensorrt.ops",
+    "tensorflow.compiler.tf2tensorrt.ops.gen_trt_ops",
+    "tensorflow.python.keras",
+    "tensorflow.python.keras.engine.base_layer_v1"
+  ]
 }

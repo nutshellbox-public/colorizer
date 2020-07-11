@@ -1,6 +1,14 @@
 {
-    "app_name": "Colorizer",
-    "author": "Nutshellbox",
-    "main_module": "src/main/python/main.py",
-    "version": "0.0.0"
+  "app_name": "Colorizer",
+  "author": "Nutshellbox",
+  "main_module": "src/main/python/main.py",
+  "version": "0.0.0",
+  "hidden_imports": [
+    "pkg_resources.py2_warn",
+    "tensorflow.compiler.tf2tensorrt",
+    "tensorflow.compiler.tf2tensorrt.ops",
+    "tensorflow.compiler.tf2tensorrt.ops.gen_trt_ops",
+    "tensorflow.python.keras",
+    "tensorflow.python.keras.engine.base_layer_v1"
+  ]
 }
