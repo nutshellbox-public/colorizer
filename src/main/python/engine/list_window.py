@@ -1,5 +1,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 from functools import partial
+from PyQt5.QtCore import pyqtSlot
+import threading
+import os
 
 
 class Ui_Form(object):
@@ -9,6 +13,7 @@ class Ui_Form(object):
         self.images = images
         self.title_image = self.images[0]
         self.colorizer = colorizer
+        self.on_colorizing = False
 
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -19,12 +24,33 @@ class Ui_Form(object):
         self.label.setStyleSheet("color:rgb(255, 255, 255);\n"
                                  "font-size: 20px;")
         self.label.setObjectName("label")
+
+        self.label_p = QtWidgets.QLabel(Form)
+        self.label_p.setGeometry(QtCore.QRect(30, 530, 450, 31))
+        self.label_p.setStyleSheet("color:rgb(255, 255, 255);\n"
+                                   "font-size: 10px;")
+        self.label_p.setObjectName("label_p")
+
         self.label_2 = QtWidgets.QLabel(Form)
         self.label_2.setGeometry(QtCore.QRect(30, 70, 112, 160))
         self.label_2.setMaximumSize(QtCore.QSize(112, 160))
         self.label_2.setText("")
         self.label_2.setScaledContents(True)
         self.label_2.setObjectName("label_2")
+
+        self.indicator = QtWidgets.QLabel(Form)
+        self.indicator.setGeometry(QtCore.QRect(30, 290, 111, 31))
+        self.indicator.setStyleSheet("color:rgb(255, 255, 255);\n"
+                                 "font-size: 15px;")
+        self.indicator.setObjectName("indicator")
+
+        self.processed = QtWidgets.QLabel(Form)
+        self.processed.setGeometry(QtCore.QRect(30, 320, 112, 160))
+        self.processed.setMaximumSize(QtCore.QSize(112, 160))
+        self.processed.setText("")
+        self.processed.setScaledContents(True)
+        self.processed.setObjectName("processed")
+
         self.label_4 = QtWidgets.QLabel(Form)
         self.label_4.setGeometry(QtCore.QRect(210, 30, 111, 31))
         self.label_4.setStyleSheet("color:rgb(255, 255, 255);\n"
@@ -67,10 +93,15 @@ class Ui_Form(object):
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def convert(self):
-        self.colorizer.colorize(self.title_image, self.images)
+        self.set_progress("Colorizing ...")
+        if not self.on_colorizing:
+            t = threading.Thread(target=self.colorizer.colorize, args=(self.title_image, self.images, self))
+            t.start()
+        else:
+            self.set_progress('Busy')
 
     def set_images(self):
-        size = 25 + (len(self.images) // 3) * 185
+        size = 25 + (len(self.images) // 3) * 195
         self.scrollAreaWidgetContents.setMinimumSize(QtCore.QSize(500, size))
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 533, size))
         self.gridLayoutWidget.setGeometry(QtCore.QRect(20, 10, 491, size))
@@ -94,5 +125,13 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.label.setText(_translate("Form", "Title Image"))
+        self.label_p.setText(_translate("Form", "Progress"))
         self.label_4.setText(_translate("Form", "Images"))
+        self.indicator.setText(_translate("Form", "Generated"))
         self.pushButton_2.setText(_translate("Form", "Convert"))
+
+    @pyqtSlot()
+    def set_progress(self, text):
+        _translate = QtCore.QCoreApplication.translate
+        self.label_p.setText(f"Progress: {text}")
+        self.label_p.adjustSize()

@@ -18,6 +18,7 @@ class SubWindow(QtWidgets.QMainWindow, Ui_Form):
     def __init__(self, *args, obj=None, **kwargs):
         super(SubWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
+        self.setFixedSize(self.size())
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_initilizer):
@@ -27,6 +28,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_initilizer):
         self.pushButton.clicked.connect(self.open_folder)
         self.sub_window = None
         self.colorizer = colorizer
+        self.setFixedSize(self.size())
 
     def open_folder(self):
         folder = QFileDialog.getExistingDirectory()
@@ -42,7 +44,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_initilizer):
 
 if __name__ == '__main__':
     appctxt = ApplicationContext()
-    colorizer = Colorizer(appctxt.get_resource('model/colorizer.h5'), appctxt.get_resource('model/upscaler.h5'))
+    colorizer = Colorizer(appctxt.get_resource('model/colorizer.h5'), appctxt.get_resource('model/upscaler.h5'),
+                          appctxt.get_resource('model/refiner.h5'))
     window = MainWindow()
     window.set_image(appctxt.get_resource('images/nutshellbox.png'))
     window.show()
